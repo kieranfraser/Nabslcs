@@ -61,12 +61,12 @@ public class Classifier {
 		action = new OrdinalAction(OrdinalAction.DEFAULT_ACTION);
 	}
 
-	public ArrayList<Feature> getConditions() {
+	public ArrayList<Feature> getCondition() {
 		return condition;
 	}
 
-	public void setConditions(ArrayList<Feature> conditions) {
-		this.condition = conditions;
+	public void setCondition(ArrayList<Feature> condition) {
+		this.condition = condition;
 	}
 
 	public Action getAction() {

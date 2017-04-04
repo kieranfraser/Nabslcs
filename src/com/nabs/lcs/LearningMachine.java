@@ -1,14 +1,18 @@
 package com.nabs.lcs;
 
+import java.util.ArrayList;
+
 import com.nabs.lcs.components.Covering;
 import com.nabs.lcs.components.Deletion;
 import com.nabs.lcs.components.MatchedSets;
 import com.nabs.lcs.components.Matching;
 import com.nabs.lcs.components.ParameterUpdate;
 import com.nabs.lcs.components.Population;
+import com.nabs.lcs.components.Prediction;
 import com.nabs.lcs.components.RuleDiscovery;
 import com.nabs.lcs.components.Subsumption;
 import com.nabs.models.LearningParams;
+import com.nabs.models.features.Feature;
 
 /**
  * Main XCS algorithm 
@@ -16,8 +20,6 @@ import com.nabs.models.LearningParams;
  *
  */
 public class LearningMachine {
-
-	private static LearningMachine instance;
 	
 	private LearningParams learningParams;
 	
@@ -26,6 +28,7 @@ public class LearningMachine {
 	 */
 	private long t;
 	
+	private Environment environment;
 	private Population pComponent;
 	private Matching mComponent;
 	private MatchedSets icComponent;
@@ -34,13 +37,9 @@ public class LearningMachine {
 	private Subsumption subComponent;
 	private RuleDiscovery rdComponent;
 	private Deletion delCompent;
+	private Prediction predictionComponent;
 	
-	public static synchronized LearningMachine getInstance(){
-		if(instance==null){
-			instance = new LearningMachine();
-		}
-		return instance;
-	}
+	private ArrayList<Feature> currentSituation;
 	
 	/**
 	 * Function initializes the LM by initializing 
@@ -52,15 +51,32 @@ public class LearningMachine {
 	 * initialized. Apart from the parameter settings and the start of the time-step
 	 * counter referred to as actual time t, the population [P] needs to be initialized.
 	 */
-	private LearningMachine(){
+	public LearningMachine(){
+		this.t = 0;
 		learningParams = LearningParams.getInstance();
+		// Reinforcement Program rp must be initialized
 		
+		this.environment = new Environment();
+		this.pComponent = new Population();
+		this.mComponent = new Matching();
+		this.icComponent = new MatchedSets();
+		this.cComponent = new Covering();
+		this.updateComponent = new ParameterUpdate();
+		this.subComponent = new Subsumption();
+		this.rdComponent = new RuleDiscovery();
+		this.delCompent = new Deletion();
+		this.predictionComponent = new Prediction();
+		
+		mainLoop();
 	}
 	
 	/**
-	 * Start the algorithm with the current params.
+	 * Main Loop of XCS
 	 */
-	public void startMachine(){
+	private void mainLoop(){
+		currentSituation = environment.getNextInstance();
+		mComponent.generateMatchSet(pComponent.getPopulation(), currentSituation);
+		predictionComponent.generatePredictionArray(mComponent.getMatchedSet());
 		
 	}
 }

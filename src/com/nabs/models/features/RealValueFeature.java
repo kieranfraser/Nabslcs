@@ -14,10 +14,14 @@ import java.util.logging.Logger;
 public class RealValueFeature extends Feature{
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
-	private long value;
+	private double value;
+	
+	public RealValueFeature(double value){
+		this.value = value;
+	}
 
 	@Override
-	public Long getValue() {
+	public Double getValue() {
 		return value;
 	}
 

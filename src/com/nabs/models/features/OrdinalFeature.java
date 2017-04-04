@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class OrdinalFeature extends Feature {
 
-	
+	public static final int DEFAULT_VALUE = 0;
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	private int value;
 	

@@ -3,6 +3,9 @@ package com.nabs.lcs;
 import java.util.ArrayList;
 
 import com.nabs.models.Notification;
+import com.nabs.models.features.Feature;
+import com.nabs.models.features.OrdinalFeature;
+import com.nabs.models.features.RealValueFeature;
 
 public class Environment {
 
@@ -39,10 +42,13 @@ public class Environment {
 	 * Get the next data instance if it exists.
 	 * @return
 	 */
-	public String getNextInstance(){
-		String input = null;
+	public ArrayList<Feature> getNextInstance(){
+		ArrayList<Feature> input = new ArrayList<Feature>();
 		
-		input = "2,3,2,423423.234=verysoon";
+		input.add(new OrdinalFeature(1));
+		input.add(new OrdinalFeature(3));
+		input.add(new OrdinalFeature(2));
+		input.add(new RealValueFeature(23345345.03));
 		
 		return input;
 	}

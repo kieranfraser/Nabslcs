@@ -14,7 +14,6 @@ public class OrdinalAction extends Action{
 	private int value;
 		
 	public OrdinalAction(int value){
-		logger.log(Level.INFO, "Created ordinal action.");
 		this.value = value;
 		this.setType(TYPE);
 		this.setName(DEFAULT_NAME);

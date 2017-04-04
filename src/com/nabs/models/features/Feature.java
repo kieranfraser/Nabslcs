@@ -7,10 +7,20 @@ package com.nabs.models.features;
  */
 public abstract class Feature {
 	
+	public enum FeatureType {
+	    WILDCARD, ORDINAY
+	}
+	
 	private String name;
-	private String type;
+	private FeatureType type;
 	
 	public abstract Object getValue();
 	public abstract void printValue();
-
+	
+	public String getName() {
+		return name;
+	}
+	public FeatureType getType() {
+		return type;
+	}
 }

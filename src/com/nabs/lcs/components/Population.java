@@ -53,7 +53,9 @@ public class Population {
 	public Population(){
 		n = LearningParams.getInstance().getMaxPopulation();
 		classifiers = new ArrayList<Classifier>();
-		
-		
 	}
+
+	public ArrayList<Classifier> getPopulation() {
+		return classifiers;
+	}	
 }
