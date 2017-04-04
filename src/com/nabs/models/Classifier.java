@@ -59,6 +59,8 @@ public class Classifier {
 	public Classifier(){
 		this.condition = new ArrayList<Feature>();
 		action = new OrdinalAction(OrdinalAction.DEFAULT_ACTION);
+		prediction = LearningParams.getInstance().getpI();
+		fitness = LearningParams.getInstance().getfI();
 	}
 
 	public ArrayList<Feature> getCondition() {
@@ -76,4 +78,14 @@ public class Classifier {
 	public void setAction(Action action) {
 		this.action = action;
 	}
+
+	public double getPrediction() {
+		return prediction;
+	}
+
+	public double getFitness() {
+		return fitness;
+	}
+	
+	
 }

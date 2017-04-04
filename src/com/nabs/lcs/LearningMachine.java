@@ -65,7 +65,6 @@ public class LearningMachine {
 		this.subComponent = new Subsumption();
 		this.rdComponent = new RuleDiscovery();
 		this.delCompent = new Deletion();
-		this.predictionComponent = new Prediction();
 		
 		mainLoop();
 	}
