@@ -12,6 +12,7 @@ import com.nabs.lcs.components.Prediction;
 import com.nabs.lcs.components.RuleDiscovery;
 import com.nabs.lcs.components.Subsumption;
 import com.nabs.models.LearningParams;
+import com.nabs.models.actions.Action;
 import com.nabs.models.features.Feature;
 
 /**
@@ -26,7 +27,7 @@ public class LearningMachine {
 	/**
 	 * Actual time.
 	 */
-	private long t;
+	private long actualTime;
 	
 	private Environment environment;
 	private Population pComponent;
@@ -52,12 +53,12 @@ public class LearningMachine {
 	 * counter referred to as actual time t, the population [P] needs to be initialized.
 	 */
 	public LearningMachine(){
-		this.t = 0;
+		this.actualTime = 0;
 		learningParams = LearningParams.getInstance();
 		// Reinforcement Program rp must be initialized
 		
-		this.environment = new Environment();
-		this.pComponent = new Population();
+		this.environment = Environment.getInstance();
+		this.pComponent = Population.getInstance();
 		this.mComponent = new Matching();
 		this.icComponent = new MatchedSets();
 		this.cComponent = new Covering();
@@ -68,14 +69,26 @@ public class LearningMachine {
 		
 		mainLoop();
 	}
-	
+
 	/**
 	 * Main Loop of XCS
 	 */
 	private void mainLoop(){
-		currentSituation = environment.getNextInstance();
-		mComponent.generateMatchSet(pComponent.getPopulation(), currentSituation);
-		predictionComponent.generatePredictionArray(mComponent.getMatchedSet());
+		do{
+			currentSituation = environment.getNextInstance();
+			mComponent.generateMatchSet(pComponent.getPopulation(), currentSituation);
+			predictionComponent.getInstance().generatePredictionArray(mComponent.getMatchedSet());
+			Action action = predictionComponent.getInstance().
+		} while(terminationCriteriaNotMet());
 		
 	}
+
+	private boolean terminationCriteriaNotMet() {
+		return false;
+	}
+
+	public long getActualTime() {
+		return actualTime;
+	}
+	
 }

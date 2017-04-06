@@ -45,7 +45,7 @@ public class Classifier {
 	private double timeStamp;
 	
 	/**
-	 * as - estimates the aveage size of the action sets this classifier has 
+	 * as - estimates the average size of the action sets this classifier has 
 	 * belonged to.
 	 */
 	private double actionSetSize;
@@ -86,6 +86,53 @@ public class Classifier {
 	public double getFitness() {
 		return fitness;
 	}
-	
+
+	public double getPredictionError() {
+		return predictionError;
+	}
+
+	public void setPredictionError(double predictionError) {
+		this.predictionError = predictionError;
+	}
+
+	public double getExperience() {
+		return experience;
+	}
+
+	public void setExperience(double experience) {
+		this.experience = experience;
+	}
+
+	public double getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(double timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+	public double getNumerosity() {
+		return numerosity;
+	}
+
+	public void setNumerosity(double numerosity) {
+		this.numerosity = numerosity;
+	}
+
+	public void setPrediction(double prediction) {
+		this.prediction = prediction;
+	}
+
+	public void setFitness(double fitness) {
+		this.fitness = fitness;
+	}
+
+	public void setActionSetSize(double actionSetSize) {
+		this.actionSetSize = actionSetSize;
+	}
+
+	public double getActionSetSize() {
+		return actionSetSize;
+	}	
 	
 }

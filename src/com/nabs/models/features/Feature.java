@@ -23,4 +23,7 @@ public abstract class Feature {
 	public FeatureType getType() {
 		return type;
 	}
+	public void setType(FeatureType featureType){
+		this.type = featureType;
+	}
 }

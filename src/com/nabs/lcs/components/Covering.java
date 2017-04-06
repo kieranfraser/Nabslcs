@@ -3,6 +3,7 @@ package com.nabs.lcs.components;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.nabs.lcs.LearningMachine;
 import com.nabs.models.Classifier;
 import com.nabs.models.LearningParams;
 import com.nabs.models.actions.Action;
@@ -23,6 +24,7 @@ import com.nabs.models.features.OrdinalFeature;
 public class Covering {
 
 	private static Random generator;
+	
 	public static Classifier generateCoveringClassifier(ArrayList<Classifier> matchedSet, ArrayList<Feature> currentSituation){
 		generator = new Random();
 		Classifier c = new Classifier();
@@ -37,10 +39,18 @@ public class Covering {
 			}
 			i++;
 		}
+		c.setAction(actionNotPresentInM(matchedSet));
+		c.setPrediction(LearningParams.getInstance().getpI());
+		c.setPredictionError(LearningParams.getInstance().geteI());
+		c.setFitness(LearningParams.getInstance().getfI());
+		c.setExperience(0.0);
+		c.setTimeStamp(System.currentTimeMillis()); //ToDo: create global time
+		c.setActionSetSize(1.0);
+		c.setNumerosity(1.0);
 		return c;
 	}
 	
-	private Action actionNotPresentInM(ArrayList<Classifier> matchedSet){
+	private static Action actionNotPresentInM(ArrayList<Classifier> matchedSet){
 		/**
 		 * Needs to be changed to get the complete list of 
 		 * possible actions.

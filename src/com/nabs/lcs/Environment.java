@@ -9,13 +9,22 @@ import com.nabs.models.features.RealValueFeature;
 
 public class Environment {
 
+	public static Environment environment;
+	
 	private ArrayList<Notification> notifications;
+	private ArrayList<Feature> currentSituation;
 	private int currentInstance;
 	
+	public static synchronized Environment getInstance(){
+		if(environment == null){
+			environment = new Environment();
+		}
+		return environment;
+	}
 	/**
 	 * Initializes the environment. 
 	 */
-	public Environment(){
+	private Environment(){
 		this.currentInstance = 0;
 		createSimData();
 	}
@@ -50,6 +59,13 @@ public class Environment {
 		input.add(new OrdinalFeature(2));
 		input.add(new RealValueFeature(23345345.03));
 		
+		currentSituation = input;
+		
 		return input;
 	}
+	
+	public ArrayList<Feature> getCurrentSituation() {
+		return currentSituation;
+	}
+	
 }

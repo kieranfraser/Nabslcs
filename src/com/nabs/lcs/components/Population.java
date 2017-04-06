@@ -1,9 +1,11 @@
 package com.nabs.lcs.components;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.nabs.models.Classifier;
 import com.nabs.models.LearningParams;
+import com.nabs.models.actions.Action;
 
 /**
  * Consists of all classifiers in the LCS. Max number of rules is a run parameter. 
@@ -25,7 +27,9 @@ import com.nabs.models.LearningParams;
  */
 public class Population {
 
+	private static Population instance;
 	private long n;
+	private ArrayList<Action> allActions;
 	
 	/**
 	 * Classifier representation:
@@ -40,6 +44,12 @@ public class Population {
 	 */
 	private ArrayList<Classifier> classifiers;
 	
+	public static synchronized Population getInstance(){
+		if(instance == null){
+			instance = new Population();
+		}
+		return instance;
+	}
 	/**
 	 * On initialization:
 	 * The population [P] can either be left empty or can be filled with the maximal
@@ -50,7 +60,7 @@ public class Population {
 	 * 
 	 * Currently leaving empty.
 	 */
-	public Population(){
+	private Population(){
 		n = LearningParams.getInstance().getMaxPopulation();
 		classifiers = new ArrayList<Classifier>();
 	}
@@ -58,4 +68,92 @@ public class Population {
 	public ArrayList<Classifier> getPopulation() {
 		return classifiers;
 	}	
+	
+	/**
+	 * Checks to see if the classifier to be inserted is 
+	 * identical in condition and action with a classifier already
+	 * in the population. If so the latter's numerosity is incremented;
+	 * if not the new classifier is added to the population.
+	 * @param child
+	 */
+	public void insertChild(Classifier child){
+		for(Classifier c : classifiers){
+			if(c.getCondition() == child.getCondition() && c.getAction() == child.getAction()){
+				c.setNumerosity(c.getNumerosity()+1);
+				return;
+			}
+		}
+		classifiers.add(child);
+	}
+	
+	public void deleteFromPopulation(){
+		Random generator = new Random();
+		if(sumOfNumerosities() <= LearningParams.getInstance().getMaxPopulation()){
+			return;
+		}
+		double avFitnessInPopulation = sumOfFitness() / sumOfNumerosities();
+		double voteSum = 0;
+		for(Classifier c : classifiers){
+			voteSum = voteSum + deletionVote(c, avFitnessInPopulation);
+		}
+		double choicePoint = generator.nextFloat() * voteSum;
+		voteSum = 0;
+		for(Classifier c : classifiers){
+			voteSum = voteSum + deletionVote(c, avFitnessInPopulation);
+			if(voteSum > choicePoint){
+				if(c.getNumerosity() > 1){
+					c.setNumerosity(c.getNumerosity() - 1);
+				}
+				else{
+					classifiers.remove(c);
+				}
+				return;
+			}
+		}
+	}
+	
+	private double deletionVote(Classifier c, double avFitnessInPopulation){
+		double vote = c.getActionSetSize() * c.getNumerosity();
+		if(c.getExperience() > LearningParams.getInstance().getDeletionThreshold() && 
+				c.getFitness() / c.getNumerosity() < LearningParams.getInstance().getFitnessFractionProbDeletion() * avFitnessInPopulation){
+			vote = vote * avFitnessInPopulation / (c.getFitness() / c.getNumerosity()); 
+		}
+		return vote;			
+	}
+	
+	private double sumOfFitness(){
+		double sum = 0.0;
+		for(Classifier c : classifiers){
+			sum += c.getFitness();
+		}
+		return sum;
+	}
+	
+	private double sumOfNumerosities(){
+		double sum = 0.0;
+		for(Classifier c : classifiers){
+			sum += c.getNumerosity();
+		}
+		return sum;
+	}
+	
+	public ArrayList<Action> getAllActions(){
+		return allActions;
+	}
+	
+	/**
+	 * Returns a random action that isn't already the
+	 * chosen action.
+	 * @param action
+	 */
+	public Action getDifferingRandomAction(Action currentAction){
+		Random generator = new Random();
+		Action a = allActions.get(generator.nextInt(allActions.size()));
+		if(a != currentAction){
+			return a;
+		}
+		else{
+			return getDifferingRandomAction(currentAction);
+		}
+	}
 }

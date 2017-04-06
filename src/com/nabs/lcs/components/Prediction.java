@@ -3,8 +3,10 @@ package com.nabs.lcs.components;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import com.nabs.models.Classifier;
+import com.nabs.models.LearningParams;
 import com.nabs.models.actions.Action;
 
 /**
@@ -25,6 +27,7 @@ public class Prediction {
 	
 	private Map<Action, Double> predictionMap;
 	private Map<Action, Double> fitnessMap;
+	private ArrayList<Classifier> actionSet;
 	
 	public static synchronized Prediction getInstance(){
 		if(instance==null){
@@ -46,7 +49,7 @@ public class Prediction {
 		for(Map.Entry<Action, Double> entry : predictionMap.entrySet()) {
 			predictionMap.put(entry.getKey(), null);
 	     }
-		for(Map.Entry<Action, Double> entry : predictionMap.entrySet()) {
+		for(Map.Entry<Action, Double> entry : fitnessMap.entrySet()) {
 			fitnessMap.put(entry.getKey(), 0.0);
 	     }
 		
@@ -66,13 +69,70 @@ public class Prediction {
 			Double fitnessValue = fitnessMap.get(c.getAction()) + c.getFitness();
 			fitnessMap.put(c.getAction(), fitnessValue);
 		}
-		ArrayList<Action> actionSet = new ArrayList<>(); // change to get actionset
-		for(Action a : actionSet){
+		ArrayList<Action> allActions = new ArrayList<>(); // change to get actionset
+		for(Action a : allActions){
 			if(fitnessMap.get(a) != 0.0 && predictionMap.get(a)!=null){
 				double calcValue = predictionMap.get(a) / fitnessMap.get(a);
 				predictionMap.put(a, calcValue);
 			}
 		}
 		return predictionMap;
+	}
+	
+	/**
+	 * Used in Action selection for choosing a non null action
+	 * @return
+	 */
+	private Action getRandomAction(){
+		Random generator = new Random();
+		ArrayList<Action> nonNullActions = new ArrayList<Action>();
+		for(Map.Entry<Action, Double> entry : predictionMap.entrySet()) {
+			if(entry.getKey() != null){
+				nonNullActions.add(entry.getKey());
+			}
+	     }
+		return nonNullActions.get(generator.nextInt());
+	}
+	
+	/**
+	 * Gets the action with the current best predicted outcome value.
+	 * @return
+	 */
+	private Action getBestAction(){
+		Action currentBestAction = null;
+		Double currentBestPA = 0.0;
+		for(Map.Entry<Action, Double> entry : predictionMap.entrySet()) {
+			if(predictionMap.get(entry.getKey()) >= currentBestPA){
+				currentBestAction = entry.getKey();
+			}
+	     }
+		return currentBestAction;
+	}
+	
+	/**
+	 * Used to select an action
+	 */
+	public Action actionSelection(){
+		Random generator = new Random();
+		if(generator.nextFloat() < LearningParams.getInstance().getPexplr()){
+			return getRandomAction();
+		}
+		else{
+			return getBestAction();
+		}
+	}
+	
+	/**
+	 * 
+	 * @param matchedSet
+	 * @param chosenAction
+	 */
+	public void generateActionSet(ArrayList<Classifier> matchedSet, Action chosenAction){
+		actionSet = new ArrayList<Classifier>();
+		for(Classifier c : matchedSet){
+			if(c.getAction() == chosenAction){
+				actionSet.add(c);
+			}
+		}
 	}
 }
