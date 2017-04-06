@@ -1,6 +1,7 @@
 package com.nabs.lcs;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.nabs.lcs.components.Covering;
 import com.nabs.lcs.components.Deletion;
@@ -11,6 +12,7 @@ import com.nabs.lcs.components.Population;
 import com.nabs.lcs.components.Prediction;
 import com.nabs.lcs.components.RuleDiscovery;
 import com.nabs.lcs.components.Subsumption;
+import com.nabs.models.Classifier;
 import com.nabs.models.LearningParams;
 import com.nabs.models.actions.Action;
 import com.nabs.models.features.Feature;
@@ -76,9 +78,10 @@ public class LearningMachine {
 	private void mainLoop(){
 		do{
 			currentSituation = environment.getNextInstance();
-			mComponent.generateMatchSet(pComponent.getPopulation(), currentSituation);
-			predictionComponent.getInstance().generatePredictionArray(mComponent.getMatchedSet());
-			Action action = predictionComponent.getInstance().
+			ArrayList<Classifier> matchedSet = mComponent.generateMatchSet(pComponent.getInstance().getPopulation(), currentSituation);
+			Map<Action, Double> predictionMap = predictionComponent.getInstance().generatePredictionArray(matchedSet);
+			Action chosenAction = predictionComponent.getInstance().actionSelection();
+			ArrayList<Classifier> actionSet = predictionComponent.getInstance().generateActionSet(matchedSet, chosenAction);
 		} while(terminationCriteriaNotMet());
 		
 	}

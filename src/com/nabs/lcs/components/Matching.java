@@ -24,7 +24,7 @@ public class Matching {
 		this.matchedSet = new ArrayList<Classifier>();
 	}
 	
-	public void generateMatchSet(ArrayList<Classifier> population, ArrayList<Feature> currentSituation){
+	public ArrayList<Classifier> generateMatchSet(ArrayList<Classifier> population, ArrayList<Feature> currentSituation){
 		this.matchedSet = new ArrayList<Classifier>();
 		while(matchedSet.isEmpty()){
 			for(Classifier c : population){
@@ -38,6 +38,7 @@ public class Matching {
 				this.matchedSet = new ArrayList<Classifier>();
 			}
 		}
+		return matchedSet;
 	}
 	
 	private boolean doesMatch(Classifier c, ArrayList<Feature> s){
