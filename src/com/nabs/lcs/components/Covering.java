@@ -30,8 +30,6 @@ public class Covering {
 		generator = new Random();
 		Classifier c = new Classifier();
 		ArrayList<Feature> condition = new ArrayList<Feature>(currentSituation.size());
-		System.out.println(condition.size());
-		System.out.println(currentSituation.size());
 		for(int i=0; i<currentSituation.size(); i++){
 			if(generator.nextFloat() < LearningParams.getInstance().getCrossoverProbability()){
 				Feature x = new OrdinalFeature(OrdinalFeature.DEFAULT_VALUE);

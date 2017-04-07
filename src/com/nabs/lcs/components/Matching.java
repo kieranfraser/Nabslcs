@@ -21,12 +21,12 @@ public class Matching {
 	public static ArrayList<Classifier> generateMatchSet(ArrayList<Classifier> population, ArrayList<Feature> currentSituation){
 		ArrayList<Classifier> matchedSet = new ArrayList<Classifier>();
 		while(matchedSet.isEmpty()){
-			System.out.println(matchedSet.size());
 			for(Classifier c : population){
 				if(doesMatch(c, currentSituation))
 					matchedSet.add(c);
 			}
-			if(countActions(matchedSet) < LearningParams.getInstance().getMinActions()){
+			//if(countActions(matchedSet) < LearningParams.getInstance().getMinActions()){
+			if(countActions(matchedSet) < 4){
 				//System.out.println(countActions(matchedSet));
 				//System.out.println("Starting Covering");
 				
@@ -37,6 +37,7 @@ public class Matching {
 			}
 			//System.out.println(matchedSet.size());
 		}
+		//System.out.println(matchedSet.size());
 		return matchedSet;
 	}
 	
