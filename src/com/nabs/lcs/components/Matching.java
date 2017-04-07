@@ -17,31 +17,32 @@ import com.nabs.models.features.Feature.FeatureType;
  *
  */
 public class Matching {
-
-	private ArrayList<Classifier> matchedSet;
-
-	public Matching(){
-		this.matchedSet = new ArrayList<Classifier>();
-	}
 	
-	public ArrayList<Classifier> generateMatchSet(ArrayList<Classifier> population, ArrayList<Feature> currentSituation){
-		this.matchedSet = new ArrayList<Classifier>();
+	public static ArrayList<Classifier> generateMatchSet(ArrayList<Classifier> population, ArrayList<Feature> currentSituation){
+		ArrayList<Classifier> matchedSet = new ArrayList<Classifier>();
 		while(matchedSet.isEmpty()){
+			System.out.println(matchedSet.size());
 			for(Classifier c : population){
 				if(doesMatch(c, currentSituation))
-					this.matchedSet.add(c);
+					matchedSet.add(c);
 			}
-			if(countActions() < LearningParams.getInstance().getMinActions()){
-				Classifier coverClassifier = Covering.generateCoveringClassifier(this.matchedSet, currentSituation);
+			if(countActions(matchedSet) < LearningParams.getInstance().getMinActions()){
+				//System.out.println(countActions(matchedSet));
+				//System.out.println("Starting Covering");
+				
+				Classifier coverClassifier = Covering.generateCoveringClassifier(matchedSet, currentSituation);
 				population.add(coverClassifier);
 				// delete from population - keeps the number of classifiers under param
-				this.matchedSet = new ArrayList<Classifier>();
+				matchedSet = new ArrayList<Classifier>();
 			}
+			//System.out.println(matchedSet.size());
 		}
 		return matchedSet;
 	}
 	
-	private boolean doesMatch(Classifier c, ArrayList<Feature> s){
+	private static boolean doesMatch(Classifier c, ArrayList<Feature> s){
+		//System.out.println(c.toString());
+		//System.out.println(s.toString());
 		for(int i=0; i<c.getCondition().size(); i++){
 			Feature x = c.getCondition().get(i);
 			Feature y = s.get(i);
@@ -52,10 +53,10 @@ public class Matching {
 		return true;
 	}
 	
-	private int countActions(){
+	private static int countActions(ArrayList<Classifier> matchedSet){
 		int uniqueActions = 0;
 		ArrayList<String> actionStrings = new ArrayList<String>();
-		for(Classifier c : this.matchedSet){
+		for(Classifier c : matchedSet){
 			if(!actionStrings.contains(c.getAction().getName())){
 				actionStrings.add(c.getAction().getName());
 				uniqueActions++;
@@ -63,8 +64,5 @@ public class Matching {
 		}
 		return uniqueActions;
 	}
-
-	public ArrayList<Classifier> getMatchedSet() {
-		return matchedSet;
-	}	
+	
 }

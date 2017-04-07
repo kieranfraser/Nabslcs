@@ -9,6 +9,7 @@ import com.nabs.models.LearningParams;
 import com.nabs.models.actions.Action;
 import com.nabs.models.features.Feature;
 import com.nabs.models.features.OrdinalFeature;
+import com.nabs.models.features.Feature.FeatureType;
 
 /**
  * If no classifiers are found in the correct set, introduces new rules.
@@ -29,16 +30,20 @@ public class Covering {
 		generator = new Random();
 		Classifier c = new Classifier();
 		ArrayList<Feature> condition = new ArrayList<Feature>(currentSituation.size());
-		int i = 0;
-		for(Feature x : condition){
+		System.out.println(condition.size());
+		System.out.println(currentSituation.size());
+		for(int i=0; i<currentSituation.size(); i++){
 			if(generator.nextFloat() < LearningParams.getInstance().getCrossoverProbability()){
-				x = new OrdinalFeature(OrdinalFeature.DEFAULT_VALUE);
+				Feature x = new OrdinalFeature(OrdinalFeature.DEFAULT_VALUE);
+				x.setType(FeatureType.WILDCARD);
+				condition.add(i, x);
 			}
 			else{
-				x = currentSituation.get(i);
+				Feature x = currentSituation.get(i);
+				condition.add(i, x);
 			}
-			i++;
 		}
+		c.setCondition(condition);
 		c.setAction(actionNotPresentInM(matchedSet));
 		c.setPrediction(LearningParams.getInstance().getpI());
 		c.setPredictionError(LearningParams.getInstance().geteI());

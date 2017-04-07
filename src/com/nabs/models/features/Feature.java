@@ -25,5 +25,6 @@ public abstract class Feature {
 	}
 	public void setType(FeatureType featureType){
 		this.type = featureType;
-	}
+	}	
+	
 }

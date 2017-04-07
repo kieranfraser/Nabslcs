@@ -29,4 +29,11 @@ public class RealValueFeature extends Feature{
 	public void printValue() {
 		logger.log(Level.INFO, "Value: "+value);
 	}
+
+	@Override
+	public String toString() {
+		String val = "type: "+this.getType() + " value: "+value;
+		return val;
+	}
+	
 }

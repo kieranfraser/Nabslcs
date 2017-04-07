@@ -27,7 +27,6 @@ public class OrdinalFeature extends Feature {
 	private int value;
 	
 	public OrdinalFeature(int value){
-		logger.log(Level.INFO, "Created ordinal feature.");
 		this.value = value;
 	}
 	
@@ -40,4 +39,12 @@ public class OrdinalFeature extends Feature {
 	public void printValue() {
 		logger.log(Level.INFO, "Value: "+value);
 	}
+
+	@Override
+	public String toString() {
+		String val = "type: "+this.getType() + " value: "+value;
+		return val;
+	}
+	
+	
 }

@@ -133,6 +133,19 @@ public class Classifier {
 
 	public double getActionSetSize() {
 		return actionSetSize;
+	}
+
+	@Override
+	public String toString() {
+		String value = "Condition: ";
+		for(Feature f : condition){
+			value = value + f.getValue().toString() + " \n";
+			value = value + f.getType().toString() + " \n";
+		}
+		value = value + " \n Action: "+action.getName()+" \n";
+		return value;
 	}	
+	
+	
 	
 }
