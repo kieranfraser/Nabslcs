@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.nabs.models.Classifier;
 import com.nabs.models.LearningParams;
-import com.nabs.models.actions.Action;
 
 /**
  * Update the classifier params e.g. fitness
@@ -19,7 +18,7 @@ import com.nabs.models.actions.Action;
  */
 public class ParameterUpdate {
 
-	public void updateSet(ArrayList<Classifier> actionSet, Double p, Map<Action, Double> predictionArray){
+	public static void updateSet(ArrayList<Classifier> actionSet, Double p){
 		for(Classifier c : actionSet){
 			c.setExperience(c.getExperience()+1);
 			if(c.getExperience() < 1/LearningParams.getInstance().getLearningRate()){
@@ -58,7 +57,7 @@ public class ParameterUpdate {
 	 * @param actionSet
 	 * @return
 	 */
-	private double sumActionSetSize(ArrayList<Classifier> actionSet){
+	private static double sumActionSetSize(ArrayList<Classifier> actionSet){
 		double sumValue = 0.0;
 		for(Classifier c : actionSet){
 			sumValue += (c.getNumerosity() - c.getActionSetSize());
@@ -66,7 +65,7 @@ public class ParameterUpdate {
 		return sumValue;
 	}
 	
-	private void updateFitness(ArrayList<Classifier> actionSet){
+	private static void updateFitness(ArrayList<Classifier> actionSet){
 		double accuracySum = 0.0;
 		Map<Classifier, Double> accuracyVector= new HashMap<Classifier, Double>();
 		for(Classifier c : actionSet){

@@ -127,12 +127,13 @@ public class Prediction {
 	 * @param matchedSet
 	 * @param chosenAction
 	 */
-	public void generateActionSet(ArrayList<Classifier> matchedSet, Action chosenAction){
+	public ArrayList<Classifier> generateActionSet(ArrayList<Classifier> matchedSet, Action chosenAction){
 		actionSet = new ArrayList<Classifier>();
 		for(Classifier c : matchedSet){
 			if(c.getAction() == chosenAction){
 				actionSet.add(c);
 			}
 		}
+		return actionSet;
 	}
 }

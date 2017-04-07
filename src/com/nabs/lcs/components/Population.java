@@ -6,6 +6,7 @@ import java.util.Random;
 import com.nabs.models.Classifier;
 import com.nabs.models.LearningParams;
 import com.nabs.models.actions.Action;
+import com.nabs.models.actions.OrdinalAction;
 
 /**
  * Consists of all classifiers in the LCS. Max number of rules is a run parameter. 
@@ -137,10 +138,6 @@ public class Population {
 		return sum;
 	}
 	
-	public ArrayList<Action> getAllActions(){
-		return allActions;
-	}
-	
 	/**
 	 * Returns a random action that isn't already the
 	 * chosen action.
@@ -155,5 +152,26 @@ public class Population {
 		else{
 			return getDifferingRandomAction(currentAction);
 		}
+	}
+	
+	public static ArrayList<Action> getAllActions(){
+		ArrayList<Action> actions = new ArrayList<Action>();
+		Action a1 = new OrdinalAction(1000);
+		a1.setName("Now");
+		actions.add(a1);
+		
+		Action a2 = new OrdinalAction(1000);
+		a2.setName("Next Break");
+		actions.add(a2);
+		
+		Action a3 = new OrdinalAction(1000);
+		a3.setName("Next Free Period");
+		actions.add(a3);
+		
+		Action a4 = new OrdinalAction(1000);
+		a4.setName("Later");
+		actions.add(a4);
+		
+		return actions;
 	}
 }

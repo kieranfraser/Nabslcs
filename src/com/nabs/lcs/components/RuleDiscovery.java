@@ -18,7 +18,7 @@ import com.nabs.models.features.Feature.FeatureType;
  */
 public class RuleDiscovery {
 	
-	private Random generator;
+	private static Random generator;
 
 	/**
 	 * Genetic algorithm:
@@ -37,7 +37,7 @@ public class RuleDiscovery {
 	 * covers the new offspring rules. If so, deleted and parent
 	 * numerosity is increased.
 	 */
-	public void runGeneticAlgorithm(ArrayList<Classifier> actionSet, ArrayList<Feature> currentSituation, ArrayList<Classifier> population){
+	public static void runGeneticAlgorithm(ArrayList<Classifier> actionSet, ArrayList<Feature> situation, Population population){
 		double actualTime = 0;
 		generator = new Random();
 		double[] sums = sumClassifierActionSet(actionSet);
@@ -66,7 +66,7 @@ public class RuleDiscovery {
 			child2.setFitness(child2.getFitness() * 0.1);
 			Classifier[] children = {child1, child2};
 			for(Classifier c : children){
-				applyMutation(c, Environment.getInstance().getCurrentSituation());
+				applyMutation(c, situation, population);
 				if(LearningParams.getInstance().isDoGASubsumption()){
 					if(doesSubsume(parent1, c)){
 						parent1.setNumerosity(parent1.getNumerosity()+1);
@@ -75,18 +75,18 @@ public class RuleDiscovery {
 						parent2.setNumerosity(parent2.getNumerosity() + 1);
 					}
 					else{
-						Population.getInstance().insertChild(c);
+						population.insertChild(c);
 					}
 				}
 				else{
-					Population.getInstance().insertChild(c);
+					population.insertChild(c);
 				}
-				Population.getInstance().deleteFromPopulation();
+				population.deleteFromPopulation();
 			}
 		}
 	}
 
-	private double[] sumClassifierActionSet(ArrayList<Classifier> actionSet){
+	private static double[] sumClassifierActionSet(ArrayList<Classifier> actionSet){
 		double[] sumValues = null;
 		double firstSum = 0.0;
 		double secondSum = 0.0;
@@ -97,7 +97,7 @@ public class RuleDiscovery {
 		return sumValues;
 	}
 	
-	private Classifier selectOffspring(ArrayList<Classifier> actionSet) {
+	private static Classifier selectOffspring(ArrayList<Classifier> actionSet) {
 		double fitnessSum = 0;
 		for(Classifier c : actionSet){
 			fitnessSum = fitnessSum + c.getFitness();
@@ -113,7 +113,7 @@ public class RuleDiscovery {
 		return null;
 	}
 	
-	private boolean doesSubsume(Classifier parent1, Classifier c) {
+	private static boolean doesSubsume(Classifier parent1, Classifier c) {
 		
 		return false;
 	}
@@ -122,7 +122,7 @@ public class RuleDiscovery {
 	 * 
 	 * @param c
 	 */
-	private void applyMutation(Classifier c, ArrayList<Feature> currentSituation) {
+	private static void applyMutation(Classifier c, ArrayList<Feature> currentSituation, Population population) {
 		int i = 0;
 		do {
 			if(generator.nextFloat() < LearningParams.getInstance().getMutationProbability()){
@@ -143,7 +143,7 @@ public class RuleDiscovery {
 		} while(i < c.getCondition().size());
 		if(generator.nextFloat() < LearningParams.getInstance().getMutationProbability()){
 			//randomly chosen other possible action?
-			c.setAction(Population.getInstance().getDifferingRandomAction(c.getAction()));
+			c.setAction(population.getDifferingRandomAction(c.getAction()));
 		}
 	}
 
@@ -153,7 +153,7 @@ public class RuleDiscovery {
 	 * @param child1
 	 * @param child2
 	 */
-	private void applyCrossover(Classifier child1, Classifier child2) {
+	private static void applyCrossover(Classifier child1, Classifier child2) {
 		double x = generator.nextFloat() * (child1.getCondition().size() + 1);
 		double y = generator.nextFloat() * (child2.getCondition().size() + 1);
 		if(x > y){
@@ -174,7 +174,7 @@ public class RuleDiscovery {
 	 * @param child2
 	 * @param i
 	 */
-	private void switchChildFeatures(Classifier child1, Classifier child2, int i){
+	private static void switchChildFeatures(Classifier child1, Classifier child2, int i){
 		ArrayList<Feature> condition1 = child1.getCondition();
 		ArrayList<Feature> condition2 = child2.getCondition();
 		
@@ -193,7 +193,7 @@ public class RuleDiscovery {
 	 * @param x
 	 * @param y
 	 */
-	private void switchXAndY(Double x, Double y){
+	private static void switchXAndY(Double x, Double y){
 		Double temp = x;
 		x = y;
 		y = temp;

@@ -1,8 +1,10 @@
 package com.nabs.lcs;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import com.nabs.models.Notification;
+import com.nabs.models.actions.Action;
 import com.nabs.models.features.Feature;
 import com.nabs.models.features.OrdinalFeature;
 import com.nabs.models.features.RealValueFeature;
@@ -14,6 +16,8 @@ public class Environment {
 	private ArrayList<Notification> notifications;
 	private ArrayList<Feature> currentSituation;
 	private int currentInstance;
+	
+	private ArrayList<Action> executedActions;
 	
 	public static synchronized Environment getInstance(){
 		if(environment == null){
@@ -43,8 +47,6 @@ public class Environment {
 		n.setSubject("work");
 		n.setApp("communication");
 		
-		notifications.add(n);
-		notifications.add(n1);
 	}
 	
 	/**
@@ -66,6 +68,19 @@ public class Environment {
 	
 	public ArrayList<Feature> getCurrentSituation() {
 		return currentSituation;
+	}
+
+	public void executeAction(Action a){
+		executedActions.add(a);
+		for(Action action : executedActions){
+			System.out.println("Name: "+action.getName());
+		}
+	}
+	
+	public Double getReward(){
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter a reward value: ");
+		return Double.valueOf(scanner.next());
 	}
 	
 }

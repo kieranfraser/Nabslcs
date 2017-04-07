@@ -42,6 +42,11 @@ public class LearningMachine {
 	private Deletion delCompent;
 	private Prediction predictionComponent;
 	
+
+	ArrayList<ArrayList<Classifier>> actionSetLog;
+	ArrayList<Double> rewardLog;
+	ArrayList<ArrayList<Feature>> situationLog;
+	
 	private ArrayList<Feature> currentSituation;
 	
 	/**
@@ -58,6 +63,9 @@ public class LearningMachine {
 		this.actualTime = 0;
 		learningParams = LearningParams.getInstance();
 		// Reinforcement Program rp must be initialized
+		this.actionSetLog = new ArrayList<ArrayList<Classifier>>();
+		this.rewardLog = new ArrayList<Double>();
+		this.situationLog = new ArrayList<ArrayList<Feature>>();
 		
 		this.environment = Environment.getInstance();
 		this.pComponent = Population.getInstance();
@@ -77,21 +85,60 @@ public class LearningMachine {
 	 */
 	private void mainLoop(){
 		do{
+			System.out.println("Getting situation");
 			currentSituation = environment.getNextInstance();
+			System.out.println("Getting matchedSet");
 			ArrayList<Classifier> matchedSet = mComponent.generateMatchSet(pComponent.getInstance().getPopulation(), currentSituation);
+			System.out.println("Getting prediction array");
 			Map<Action, Double> predictionMap = predictionComponent.getInstance().generatePredictionArray(matchedSet);
+			System.out.println("Getting chosen action");
 			Action chosenAction = predictionComponent.getInstance().actionSelection();
+			System.out.println("Getting action");
 			ArrayList<Classifier> actionSet = predictionComponent.getInstance().generateActionSet(matchedSet, chosenAction);
-		} while(terminationCriteriaNotMet());
+			environment.executeAction(chosenAction);
+			Double p = environment.getReward();
+			ArrayList<Classifier> prevActionSet = actionSetLog.get(actionSetLog.size()-1);
+			ArrayList<Feature> prevSituation = situationLog.get(situationLog.size()-1);
+			if(!prevActionSet.isEmpty()){
+				Double predictedReward = rewardLog.get(rewardLog.size() - 1) + LearningParams.getInstance().getDiscountFactor() * maxValueInPA(predictionMap);
+				ParameterUpdate.updateSet(prevActionSet, predictedReward);
+				RuleDiscovery.runGeneticAlgorithm(prevActionSet, prevSituation, pComponent);
+			}
+			/*if(rp : eop){
+				ParameterUpdate.updateSet(actionSet	, p);
+				RuleDiscovery.runGeneticAlgorithm(actionSet, currentSituation, pComponent);
+				actionSetLog = new ArrayList<ArrayList<Classifier>>();
+			}
+			else{*/
+			
+			actionSetLog.add(actionSet);
+			rewardLog.add(p);
+			situationLog.add(currentSituation);
+			
+			
+			/*}*/
+			
+		} while(terminate());
 		
 	}
 
-	private boolean terminationCriteriaNotMet() {
+	private boolean terminate() {
 		return false;
 	}
 
 	public long getActualTime() {
 		return actualTime;
+	}
+	
+	private Double maxValueInPA(Map<Action, Double> predictionMap){
+		Double maxValue = 0.0;
+		for(Map.Entry<Action, Double> entry : predictionMap.entrySet()) {
+			Double curValue = predictionMap.get(entry);
+			if(curValue > maxValue){
+				maxValue = curValue;
+			}
+	     }
+		return maxValue;
 	}
 	
 }
