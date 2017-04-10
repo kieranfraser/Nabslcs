@@ -1,6 +1,11 @@
 package com.nabs.lcs;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.nabs.lcs.components.Covering;
@@ -23,6 +28,8 @@ import com.nabs.models.features.Feature;
  *
  */
 public class LearningMachine {
+	
+	private int iteration = 0;
 	
 	private LearningParams learningParams;
 	
@@ -92,15 +99,17 @@ public class LearningMachine {
 			System.out.println("Getting prediction array");
 			Map<Action, Double> predictionMap = predictionComponent.getInstance().generatePredictionArray(matchedSet);
 			System.out.println("Getting chosen action");
-			Action chosenAction = predictionComponent.getInstance().actionSelection();
-			System.out.println("Getting action");
+			Action chosenAction = predictionComponent.actionSelection(predictionMap);
+			System.out.println("Getting action set");
 			ArrayList<Classifier> actionSet = predictionComponent.getInstance().generateActionSet(matchedSet, chosenAction);
+			System.out.println("Executing action");
 			environment.executeAction(chosenAction);
 			Double p = environment.getReward();
-			ArrayList<Classifier> prevActionSet = actionSetLog.get(actionSetLog.size()-1);
-			ArrayList<Feature> prevSituation = situationLog.get(situationLog.size()-1);
+			ArrayList<Classifier> prevActionSet = (actionSetLog.size() > 1) ? actionSetLog.get(actionSetLog.size()-1) : new ArrayList<>();
+			ArrayList<Feature> prevSituation = (situationLog.size() > 1) ? situationLog.get(situationLog.size()-1) : new ArrayList<>();
+			Double predictedReward = 0.0;
 			if(!prevActionSet.isEmpty()){
-				Double predictedReward = rewardLog.get(rewardLog.size() - 1) + LearningParams.getInstance().getDiscountFactor() * maxValueInPA(predictionMap);
+				predictedReward = rewardLog.get(rewardLog.size() - 1) + LearningParams.getInstance().getDiscountFactor() * maxValueInPA(predictionMap);
 				ParameterUpdate.updateSet(prevActionSet, predictedReward);
 				RuleDiscovery.runGeneticAlgorithm(prevActionSet, prevSituation, pComponent);
 			}
@@ -117,13 +126,14 @@ public class LearningMachine {
 			
 			
 			/*}*/
-			
+			printRoundInstance(currentSituation, matchedSet, predictionMap, chosenAction, actionSet, prevActionSet, prevSituation, predictedReward);
+			iteration++;
 		} while(terminate());
 		
 	}
 
 	private boolean terminate() {
-		return false;
+		return true;
 	}
 
 	public long getActualTime() {
@@ -139,6 +149,37 @@ public class LearningMachine {
 			}
 	     }
 		return maxValue;
+	}
+	
+	private void printRoundInstance(ArrayList<Feature> currentSituation2, ArrayList<Classifier> matchedSet, Map<Action, Double> predictionMap,
+			Action chosenAction, ArrayList<Classifier> actionSet, ArrayList<Classifier> prevActionSet,
+			ArrayList<Feature> prevSituation, Double predictedReward){
+		
+		List<String> lines = Arrays.asList(currentSituation.toString(), matchedSet.toString(), predictionMap.toString(), chosenAction.toString(),
+				actionSet.toString(), prevActionSet.toString(), prevSituation.toString(), predictedReward.toString());
+		
+		File file = new File("iteration"+iteration+".txt");
+        FileWriter fr = null;
+        try {
+            fr = new FileWriter(file);
+            fr.write("Current Situation:\n "+currentSituation2.toString()+"\n\n-------------- \n\n");
+            fr.write("Matched Set: \n "+matchedSet.toString()+"\n\n-------------\n\n");
+            fr.write("Matched Set: \n "+predictionMap.toString()+"\n\n-------------\n\n");
+            fr.write("Matched Set: \n "+chosenAction.toString()+"\n\n-------------\n\n");
+            fr.write("Matched Set: \n "+actionSet.toString()+"\n\n-------------\n\n");
+            fr.write("Matched Set: \n "+prevActionSet.toString()+"\n\n-------------\n\n");
+            fr.write("Matched Set: \n "+prevSituation.toString()+"\n\n-------------\n\n");
+            fr.write("Matched Set: \n "+predictedReward.toString()+"\n\n-------------\n\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            //close resources
+            try {
+                fr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 	}
 	
 }

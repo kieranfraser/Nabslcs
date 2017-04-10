@@ -17,6 +17,7 @@ public class RealValueFeature extends Feature{
 	private double value;
 	
 	public RealValueFeature(double value){
+		this.setType(FeatureType.REAL);
 		this.value = value;
 	}
 

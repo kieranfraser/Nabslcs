@@ -43,15 +43,14 @@ public class Prediction {
 	}
 	
 	public Map<Action, Double> generatePredictionArray(ArrayList<Classifier> matchedSet){
-		predictionMap = new HashMap<Action, Double>();
-		fitnessMap = new HashMap<Action, Double>();
-				
-		for(Map.Entry<Action, Double> entry : predictionMap.entrySet()) {
-			predictionMap.put(entry.getKey(), null);
-	     }
-		for(Map.Entry<Action, Double> entry : fitnessMap.entrySet()) {
-			fitnessMap.put(entry.getKey(), 0.0);
-	     }
+		this.predictionMap = new HashMap<Action, Double>();
+		this.fitnessMap = new HashMap<Action, Double>();
+			
+		ArrayList<Action> allActions = Population.getInstance().getAllActions();
+		for(int i=0; i < allActions.size(); i++){
+			predictionMap.put(allActions.get(i), null);
+			fitnessMap.put(allActions.get(i), 0.0);
+		}
 		
 		for(Classifier c : matchedSet){
 			double p = c.getPrediction();
@@ -69,7 +68,7 @@ public class Prediction {
 			Double fitnessValue = fitnessMap.get(c.getAction()) + c.getFitness();
 			fitnessMap.put(c.getAction(), fitnessValue);
 		}
-		ArrayList<Action> allActions = new ArrayList<>(); // change to get actionset
+
 		for(Action a : allActions){
 			if(fitnessMap.get(a) != 0.0 && predictionMap.get(a)!=null){
 				double calcValue = predictionMap.get(a) / fitnessMap.get(a);
@@ -83,26 +82,26 @@ public class Prediction {
 	 * Used in Action selection for choosing a non null action
 	 * @return
 	 */
-	private Action getRandomAction(){
+	private static Action getRandomAction(Map<Action, Double> predMap){
 		Random generator = new Random();
 		ArrayList<Action> nonNullActions = new ArrayList<Action>();
-		for(Map.Entry<Action, Double> entry : predictionMap.entrySet()) {
+		for(Map.Entry<Action, Double> entry : predMap.entrySet()) {
 			if(entry.getKey() != null){
 				nonNullActions.add(entry.getKey());
 			}
 	     }
-		return nonNullActions.get(generator.nextInt());
+		return nonNullActions.get(generator.nextInt(nonNullActions.size()));
 	}
 	
 	/**
 	 * Gets the action with the current best predicted outcome value.
 	 * @return
 	 */
-	private Action getBestAction(){
+	private static Action getBestAction(Map<Action, Double> predMap){
 		Action currentBestAction = null;
 		Double currentBestPA = 0.0;
-		for(Map.Entry<Action, Double> entry : predictionMap.entrySet()) {
-			if(predictionMap.get(entry.getKey()) >= currentBestPA){
+		for(Map.Entry<Action, Double> entry : predMap.entrySet()) {
+			if(predMap.get(entry.getKey()) >= currentBestPA){
 				currentBestAction = entry.getKey();
 			}
 	     }
@@ -112,13 +111,13 @@ public class Prediction {
 	/**
 	 * Used to select an action
 	 */
-	public Action actionSelection(){
+	public static Action actionSelection(Map<Action, Double> predMap){
 		Random generator = new Random();
 		if(generator.nextFloat() < LearningParams.getInstance().getPexplr()){
-			return getRandomAction();
+			return getRandomAction(predMap);
 		}
 		else{
-			return getBestAction();
+			return getBestAction(predMap);
 		}
 	}
 	

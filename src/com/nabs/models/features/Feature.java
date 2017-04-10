@@ -8,7 +8,7 @@ package com.nabs.models.features;
 public abstract class Feature {
 	
 	public enum FeatureType {
-	    WILDCARD, ORDINAY
+	    WILDCARD, ORDINAL, REAL
 	}
 	
 	private String name;

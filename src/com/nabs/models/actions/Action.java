@@ -27,4 +27,15 @@ public abstract class Action {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	@Override
+	public String toString() {
+		String value = "";
+		
+		value = "Name: "+this.name+"\n Type: "+this.type+"\n";
+		
+		return value;
+	}
+	
+	
 }

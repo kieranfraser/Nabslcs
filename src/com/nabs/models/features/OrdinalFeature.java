@@ -27,6 +27,7 @@ public class OrdinalFeature extends Feature {
 	private int value;
 	
 	public OrdinalFeature(int value){
+		this.setType(FeatureType.ORDINAL);
 		this.value = value;
 	}
 	

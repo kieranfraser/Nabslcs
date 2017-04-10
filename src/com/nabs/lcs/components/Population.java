@@ -154,24 +154,27 @@ public class Population {
 		}
 	}
 	
-	public static ArrayList<Action> getAllActions(){
-		ArrayList<Action> actions = new ArrayList<Action>();
-		Action a1 = new OrdinalAction(1000);
-		a1.setName("Now");
-		actions.add(a1);
+	public ArrayList<Action> getAllActions(){
+		if(allActions == null){
+			ArrayList<Action> actions = new ArrayList<Action>();
+			Action a1 = new OrdinalAction(1000);
+			a1.setName("Now");
+			actions.add(a1);
+			
+			Action a2 = new OrdinalAction(1000);
+			a2.setName("Next Break");
+			actions.add(a2);
+			
+			Action a3 = new OrdinalAction(1000);
+			a3.setName("Next Free Period");
+			actions.add(a3);
+			
+			Action a4 = new OrdinalAction(1000);
+			a4.setName("Later");
+			actions.add(a4);
+			this.allActions = actions;
+		}
 		
-		Action a2 = new OrdinalAction(1000);
-		a2.setName("Next Break");
-		actions.add(a2);
-		
-		Action a3 = new OrdinalAction(1000);
-		a3.setName("Next Free Period");
-		actions.add(a3);
-		
-		Action a4 = new OrdinalAction(1000);
-		a4.setName("Later");
-		actions.add(a4);
-		
-		return actions;
+		return allActions;
 	}
 }

@@ -30,7 +30,7 @@ public class Environment {
 	 */
 	private Environment(){
 		this.currentInstance = 0;
-		createSimData();
+		executedActions = new ArrayList<>();
 	}
 	
 	/**

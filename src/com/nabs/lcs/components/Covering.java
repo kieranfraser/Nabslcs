@@ -58,7 +58,7 @@ public class Covering {
 		 * Needs to be changed to get the complete list of 
 		 * possible actions.
 		 */
-		ArrayList<Action> allActions = Population.getAllActions();
+		ArrayList<Action> allActions = Population.getInstance().getAllActions();
 		ArrayList<Action> matchedSetActions = new ArrayList<Action>();
 		
 		ArrayList<Action> actionsNotPresentInM = new ArrayList<Action>();

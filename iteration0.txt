@@ -1,0 +1,60 @@
+Current Situation:
+ [type: ORDINAL value: 1, type: ORDINAL value: 3, type: ORDINAL value: 2, type: REAL value: 2.334534503E7]
+
+-------------- 
+
+Matched Set: 
+ [
+ Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 2  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Next Break 
+, 
+ Condition: Value: 1  Type: ORDINAL  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Next Free Period 
+, 
+ Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 2  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Now 
+, 
+ Condition: Value: 1  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 2  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Later 
+]
+
+-------------
+
+Matched Set: 
+ {Name: Next Free Period
+ Type: ordinal
+=0.001, Name: Next Break
+ Type: ordinal
+=0.001, Name: Later
+ Type: ordinal
+=0.001, Name: Now
+ Type: ordinal
+=0.001}
+
+-------------
+
+Matched Set: 
+ Name: Now
+ Type: ordinal
+
+
+-------------
+
+Matched Set: 
+ [
+ Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 2  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Now 
+]
+
+-------------
+
+Matched Set: 
+ []
+
+-------------
+
+Matched Set: 
+ []
+
+-------------
+
+Matched Set: 
+ 0.0
+
+-------------
+

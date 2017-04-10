@@ -137,12 +137,12 @@ public class Classifier {
 
 	@Override
 	public String toString() {
-		String value = "Condition: ";
+		String value = "\n Condition:";
 		for(Feature f : condition){
-			value = value + f.getValue().toString() + " \n";
-			value = value + f.getType().toString() + " \n";
+			value = value + " Value: "+ f.getValue().toString() + " ";
+			value = (f.getType() != null) ? value +" Type: "+ f.getType().toString() + " " : value;
 		}
-		value = value + " \n Action: "+action.getName()+" \n";
+		value = value + " Action: "+action.getName()+" \n";
 		return value;
 	}	
 	
