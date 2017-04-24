@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import com.nabs.lcs.components.Covering;
@@ -105,11 +103,13 @@ public class LearningMachine {
 			System.out.println("Executing action");
 			environment.executeAction(chosenAction);
 			Double p = environment.getReward();
-			ArrayList<Classifier> prevActionSet = (actionSetLog.size() > 1) ? actionSetLog.get(actionSetLog.size()-1) : new ArrayList<>();
-			ArrayList<Feature> prevSituation = (situationLog.size() > 1) ? situationLog.get(situationLog.size()-1) : new ArrayList<>();
+			ArrayList<Classifier> prevActionSet = (actionSetLog.size() >= 1) ? actionSetLog.get(actionSetLog.size()-1) : new ArrayList<>();
+			ArrayList<Feature> prevSituation = (situationLog.size() >= 1) ? situationLog.get(situationLog.size()-1) : new ArrayList<>();
 			Double predictedReward = 0.0;
 			if(!prevActionSet.isEmpty()){
-				predictedReward = rewardLog.get(rewardLog.size() - 1) + LearningParams.getInstance().getDiscountFactor() * maxValueInPA(predictionMap);
+				predictedReward = (rewardLog.size() >= 1) ? rewardLog.get(rewardLog.size() - 1) + 
+						LearningParams.getInstance().getDiscountFactor() * maxValueInPA(predictionMap) : 
+							0.0 + LearningParams.getInstance().getDiscountFactor() * maxValueInPA(predictionMap);
 				ParameterUpdate.updateSet(prevActionSet, predictedReward);
 				RuleDiscovery.runGeneticAlgorithm(prevActionSet, prevSituation, pComponent);
 			}
@@ -143,7 +143,7 @@ public class LearningMachine {
 	private Double maxValueInPA(Map<Action, Double> predictionMap){
 		Double maxValue = 0.0;
 		for(Map.Entry<Action, Double> entry : predictionMap.entrySet()) {
-			Double curValue = predictionMap.get(entry);
+			Double curValue = entry.getValue();
 			if(curValue > maxValue){
 				maxValue = curValue;
 			}
@@ -155,21 +155,35 @@ public class LearningMachine {
 			Action chosenAction, ArrayList<Classifier> actionSet, ArrayList<Classifier> prevActionSet,
 			ArrayList<Feature> prevSituation, Double predictedReward){
 		
-		List<String> lines = Arrays.asList(currentSituation.toString(), matchedSet.toString(), predictionMap.toString(), chosenAction.toString(),
-				actionSet.toString(), prevActionSet.toString(), prevSituation.toString(), predictedReward.toString());
-		
+				
 		File file = new File("iteration"+iteration+".txt");
         FileWriter fr = null;
         try {
             fr = new FileWriter(file);
             fr.write("Current Situation:\n "+currentSituation2.toString()+"\n\n-------------- \n\n");
-            fr.write("Matched Set: \n "+matchedSet.toString()+"\n\n-------------\n\n");
-            fr.write("Matched Set: \n "+predictionMap.toString()+"\n\n-------------\n\n");
-            fr.write("Matched Set: \n "+chosenAction.toString()+"\n\n-------------\n\n");
-            fr.write("Matched Set: \n "+actionSet.toString()+"\n\n-------------\n\n");
-            fr.write("Matched Set: \n "+prevActionSet.toString()+"\n\n-------------\n\n");
-            fr.write("Matched Set: \n "+prevSituation.toString()+"\n\n-------------\n\n");
-            fr.write("Matched Set: \n "+predictedReward.toString()+"\n\n-------------\n\n");
+            fr.write("Match Set: \n "+matchedSet.toString()+"\n\n-------------\n\n");
+            fr.write("Prediction Map: \n "+predictionMap.toString()+"\n\n-------------\n\n");
+            fr.write("Chosen Action: \n "+chosenAction.toString()+"\n\n-------------\n\n");
+            fr.write("Action Set: \n "+actionSet.toString()+"\n\n-------------\n\n");
+            fr.write("Prev Action Set: \n "+prevActionSet.toString()+"\n\n-------------\n\n");
+            fr.write("Prev Situation: \n "+prevSituation.toString()+"\n\n-------------\n\n");
+            fr.write("Predicted Reward: \n "+predictedReward.toString()+"\n\n-------------\n\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            //close resources
+            try {
+                fr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        file = new File("population"+iteration+".txt");
+        fr = null;
+        try {
+            fr = new FileWriter(file);
+            fr.write("Current Situation:\n "+pComponent.getInstance().getPopulation().toString()+"\n\n-------------- \n\n");
         } catch (IOException e) {
             e.printStackTrace();
         }finally{

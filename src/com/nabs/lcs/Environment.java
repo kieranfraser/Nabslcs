@@ -19,6 +19,8 @@ public class Environment {
 	
 	private ArrayList<Action> executedActions;
 	
+	private ArrayList<ArrayList<Feature>> situations;
+	
 	public static synchronized Environment getInstance(){
 		if(environment == null){
 			environment = new Environment();
@@ -31,21 +33,49 @@ public class Environment {
 	private Environment(){
 		this.currentInstance = 0;
 		executedActions = new ArrayList<>();
+		situations = new ArrayList<>();
+		createSimData();
 	}
 	
 	/**
 	 * Create some simulated notification data.
 	 */
 	private void createSimData(){
-		Notification n = new Notification();
-		n.setSender("family");
-		n.setSubject("social");
-		n.setApp("communication");
+		ArrayList<Feature> first = new ArrayList<>();
+		first.add(new OrdinalFeature(1));
+		first.add(new OrdinalFeature(3));
+		first.add(new OrdinalFeature(2));
+		first.add(new RealValueFeature(23345345.03));
 		
-		Notification n1 = new Notification();
-		n.setSender("colleague");
-		n.setSubject("work");
-		n.setApp("communication");
+		ArrayList<Feature> second = new ArrayList<>();
+		second.add(new OrdinalFeature(3));
+		second.add(new OrdinalFeature(3));
+		second.add(new OrdinalFeature(3));
+		second.add(new RealValueFeature(23347777.03));
+		
+		ArrayList<Feature> third = new ArrayList<>();
+		third.add(new OrdinalFeature(1));
+		third.add(new OrdinalFeature(3));
+		third.add(new OrdinalFeature(3));
+		third.add(new RealValueFeature(23348888.03));
+		
+		ArrayList<Feature> fourth = new ArrayList<>();
+		fourth.add(new OrdinalFeature(1));
+		fourth.add(new OrdinalFeature(3));
+		fourth.add(new OrdinalFeature(1));
+		fourth.add(new RealValueFeature(23349998.03));
+		
+		ArrayList<Feature> fifth = new ArrayList<>();
+		fifth.add(new OrdinalFeature(2));
+		fifth.add(new OrdinalFeature(3));
+		fifth.add(new OrdinalFeature(1));
+		fifth.add(new RealValueFeature(23349999.03));
+		
+		situations.add(first);
+		situations.add(second);
+		situations.add(third);
+		situations.add(fourth);
+		situations.add(fifth);
 		
 	}
 	
@@ -54,16 +84,9 @@ public class Environment {
 	 * @return
 	 */
 	public ArrayList<Feature> getNextInstance(){
-		ArrayList<Feature> input = new ArrayList<Feature>();
-		
-		input.add(new OrdinalFeature(1));
-		input.add(new OrdinalFeature(3));
-		input.add(new OrdinalFeature(2));
-		input.add(new RealValueFeature(23345345.03));
-		
-		currentSituation = input;
-		
-		return input;
+		this.currentSituation = situations.get(currentInstance);
+		currentInstance++;
+		return this.currentSituation;
 	}
 	
 	public ArrayList<Feature> getCurrentSituation() {
@@ -72,9 +95,6 @@ public class Environment {
 
 	public void executeAction(Action a){
 		executedActions.add(a);
-		for(Action action : executedActions){
-			System.out.println("Name: "+action.getName());
-		}
 	}
 	
 	public Double getReward(){

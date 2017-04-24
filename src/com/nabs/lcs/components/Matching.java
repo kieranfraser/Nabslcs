@@ -44,7 +44,7 @@ public class Matching {
 	private static boolean doesMatch(Classifier c, ArrayList<Feature> s){
 		//System.out.println(c.toString());
 		//System.out.println(s.toString());
-		for(int i=0; i<c.getCondition().size(); i++){
+		for(int i=0; i< c.getCondition().size(); i++){
 			Feature x = c.getCondition().get(i);
 			Feature y = s.get(i);
 			if(x.getType() != FeatureType.WILDCARD && x.getValue() != y.getValue()){

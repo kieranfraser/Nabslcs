@@ -114,9 +114,11 @@ public class Prediction {
 	public static Action actionSelection(Map<Action, Double> predMap){
 		Random generator = new Random();
 		if(generator.nextFloat() < LearningParams.getInstance().getPexplr()){
+			System.out.println("Random action");
 			return getRandomAction(predMap);
 		}
 		else{
+			System.out.println("Best action");
 			return getBestAction(predMap);
 		}
 	}

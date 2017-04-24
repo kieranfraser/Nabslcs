@@ -1,0 +1,70 @@
+Current Situation:
+ [type: ORDINAL value: 1, type: ORDINAL value: 3, type: ORDINAL value: 3, type: REAL value: 2.334888803E7]
+
+-------------- 
+
+Match Set: 
+ [
+ Condition: Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Later 
+, 
+ Condition: Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Next Free Period 
+, 
+ Condition: Value: 1  Type: ORDINAL  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Next Break 
+, 
+ Condition: Value: 1  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Next Free Period 
+, 
+ Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Now 
+, 
+ Condition: Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Later 
+, 
+ Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Later 
+, 
+ Condition: Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Later 
+]
+
+-------------
+
+Prediction Map: 
+ {Name: Next Free Period
+ Type: ordinal
+=5.005E-4, Name: Next Break
+ Type: ordinal
+=0.001, Name: Later
+ Type: ordinal
+=2.5025025025E-4, Name: Now
+ Type: ordinal
+=1000.00071}
+
+-------------
+
+Chosen Action: 
+ Name: Now
+ Type: ordinal
+
+
+-------------
+
+Action Set: 
+ [
+ Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Now 
+]
+
+-------------
+
+Prev Action Set: 
+ [
+ Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Now 
+]
+
+-------------
+
+Prev Situation: 
+ [type: ORDINAL value: 3, type: ORDINAL value: 3, type: ORDINAL value: 3, type: REAL value: 2.334777703E7]
+
+-------------
+
+Predicted Reward: 
+ 710.0005041
+
+-------------
+

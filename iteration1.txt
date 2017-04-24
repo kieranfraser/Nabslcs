@@ -1,60 +1,74 @@
 Current Situation:
- [type: ORDINAL value: 1, type: ORDINAL value: 3, type: ORDINAL value: 2, type: REAL value: 2.334534503E7]
+ [type: ORDINAL value: 3, type: ORDINAL value: 3, type: ORDINAL value: 3, type: REAL value: 2.334777703E7]
 
 -------------- 
 
-Matched Set: 
+Match Set: 
  [
- Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 2  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Next Break 
+ Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Next Free Period 
 , 
- Condition: Value: 1  Type: ORDINAL  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Next Free Period 
+ Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Later 
 , 
- Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 2  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Now 
+ Condition: Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Later 
 , 
- Condition: Value: 1  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 2  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Later 
+ Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Next Break 
+, 
+ Condition: Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Next Break 
+, 
+ Condition: Value: 3  Type: ORDINAL  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Later 
+, 
+ Condition: Value: 3  Type: ORDINAL  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Later 
+, 
+ Condition: Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Next Free Period 
+, 
+ Condition: Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Now 
 ]
 
 -------------
 
-Matched Set: 
+Prediction Map: 
  {Name: Next Free Period
  Type: ordinal
-=0.001, Name: Next Break
+=5.005E-4, Name: Next Break
  Type: ordinal
-=0.001, Name: Later
+=5.005E-4, Name: Later
  Type: ordinal
-=0.001, Name: Now
+=2.5025025025E-4, Name: Now
  Type: ordinal
 =0.001}
 
 -------------
 
-Matched Set: 
+Chosen Action: 
  Name: Now
  Type: ordinal
 
 
 -------------
 
-Matched Set: 
+Action Set: 
  [
- Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 2  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Now 
+ Condition: Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Now 
 ]
 
 -------------
 
-Matched Set: 
- []
+Prev Action Set: 
+ [
+ Condition: Value: 1  Type: ORDINAL  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Now 
+, 
+ Condition: Value: 1  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 2  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Now 
+]
 
 -------------
 
-Matched Set: 
- []
+Prev Situation: 
+ [type: ORDINAL value: 1, type: ORDINAL value: 3, type: ORDINAL value: 2, type: REAL value: 2.334534503E7]
 
 -------------
 
-Matched Set: 
- 0.0
+Predicted Reward: 
+ 1000.00071
 
 -------------
 

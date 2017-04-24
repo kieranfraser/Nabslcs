@@ -1,0 +1,29 @@
+Current Situation:
+ [
+ Condition: Value: 1  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 2  Type: ORDINAL  Value: 2.334534503E7  Type: REAL  Action: Now 
+, 
+ Condition: Value: 1  Type: ORDINAL  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Next Free Period 
+, 
+ Condition: Value: 1  Type: ORDINAL  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Now 
+, 
+ Condition: Value: 1  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 2  Type: ORDINAL  Value: 2.334534503E7  Type: REAL  Action: Next Break 
+, 
+ Condition: Value: 1  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 2  Type: ORDINAL  Value: 2.334534503E7  Type: REAL  Action: Next Break 
+, 
+ Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Next Free Period 
+, 
+ Condition: Value: 1  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 2.334534503E7  Type: REAL  Action: Later 
+, 
+ Condition: Value: 1  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 2  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Now 
+, 
+ Condition: Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 2  Type: ORDINAL  Value: 0  Type: WILDCARD  Action: Later 
+, 
+ Condition: Value: 0  Type: WILDCARD  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Later 
+, 
+ Condition: Value: 1  Type: ORDINAL  Value: 3  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 2.334534503E7  Type: REAL  Action: Later 
+, 
+ Condition: Value: 1  Type: ORDINAL  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Value: 0  Type: WILDCARD  Action: Next Break 
+]
+
+-------------- 
+

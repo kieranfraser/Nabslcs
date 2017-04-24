@@ -38,10 +38,17 @@ public class RuleDiscovery {
 	 * numerosity is increased.
 	 */
 	public static void runGeneticAlgorithm(ArrayList<Classifier> actionSet, ArrayList<Feature> situation, Population population){
+		System.out.println("Running Genetic Algorithm");
 		double actualTime = 0;
 		generator = new Random();
 		double[] sums = sumClassifierActionSet(actionSet);
+		System.out.println(actualTime);
+		System.out.println(sums[0]);
+		System.out.println(sums[1]);
+		System.out.println(LearningParams.getInstance().getGaThreshold());
 		if((actualTime - (sums[0] / sums[1])) > LearningParams.getInstance().getGaThreshold()){
+
+			System.out.println("Under GA threshold");
 			for(Classifier c : actionSet){
 				c.setTimeStamp(actualTime);
 			}
@@ -87,13 +94,15 @@ public class RuleDiscovery {
 	}
 
 	private static double[] sumClassifierActionSet(ArrayList<Classifier> actionSet){
-		double[] sumValues = null;
+		double[] sumValues = new double[2];
 		double firstSum = 0.0;
 		double secondSum = 0.0;
 		for(Classifier c : actionSet){
 			firstSum += c.getTimeStamp() * c.getNumerosity();
 			secondSum += c.getNumerosity();
 		}
+		sumValues[0] = firstSum;
+		sumValues[1] = secondSum;
 		return sumValues;
 	}
 	
@@ -175,6 +184,7 @@ public class RuleDiscovery {
 	 * @param i
 	 */
 	private static void switchChildFeatures(Classifier child1, Classifier child2, int i){
+		System.out.println("Switching child features");
 		ArrayList<Feature> condition1 = child1.getCondition();
 		ArrayList<Feature> condition2 = child2.getCondition();
 		
